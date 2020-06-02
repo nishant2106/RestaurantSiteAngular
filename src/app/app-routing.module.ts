@@ -8,14 +8,15 @@ import { ContactComponent } from './contact/contact.component';
 import { DishService } from './services/dish.service';
 
 const routes: Routes = [
-  {path: 'home', component: HomeComponent},
-  { path: 'menu', component: MenuComponent},
-  {path: 'contactus',component:ContactComponent},
-  { path: '**', redirectTo: '/home', pathMatch: 'full'}
+  { path: 'home', component: HomeComponent },
+  { path: 'menu', component: MenuComponent },
+  { path: 'dishdetail/:id',     component: DishdetailComponent },
+  { path: 'contactus', component: ContactComponent },
+  { path: '**', redirectTo: '/home', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
