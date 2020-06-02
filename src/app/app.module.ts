@@ -6,6 +6,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import {MatDialogModule}  from '@angular/material/dialog';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -22,8 +23,11 @@ import { HomeComponent } from './home/home.component';
 import { ContactComponent } from './contact/contact.component';
 
 import { DishService } from './services/dish.service';
-import { PromotionService } from "./services/promotion.service";
-
+import { PromotionService } from './services/promotion.service';
+import { LeaderService } from './services/leader.service';
+import { Leader } from './shared/leader';
+import { LoginComponent } from './login/login.component';
+import { from } from 'rxjs';
 
 //import { AppRoutingModule } from './app-routing/app-routing.module';
 
@@ -37,6 +41,7 @@ import { PromotionService } from "./services/promotion.service";
     AboutComponent,
     HomeComponent,
     ContactComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,8 +54,10 @@ import { PromotionService } from "./services/promotion.service";
     MatGridListModule,
     MatCardModule,
     MatButtonModule,
+    MatDialogModule
   ],
-  providers: [DishService,PromotionService],
+  providers: [DishService, PromotionService, LeaderService],
+  entryComponents:[LoginComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
