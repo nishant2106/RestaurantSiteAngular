@@ -10,7 +10,11 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -29,7 +33,6 @@ import { ContactComponent } from './contact/contact.component';
 import { DishService } from './services/dish.service';
 import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
-import { Leader } from './shared/leader';
 import { LoginComponent } from './login/login.component';
 import { from } from 'rxjs';
 
@@ -62,10 +65,13 @@ import { from } from 'rxjs';
     MatFormFieldModule,
     MatInputModule,
     MatCheckboxModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    MatSlideToggleModule,
+    MatSelectModule
   ],
   providers: [DishService, PromotionService, LeaderService],
-  entryComponents:[LoginComponent],
+  entryComponents: [ LoginComponent],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
