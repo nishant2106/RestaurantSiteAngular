@@ -72,7 +72,7 @@ export class ContactComponent implements OnInit {
       this.onValueChanged(data)
     );
 
-    this.onValueChanged(); //(re) set form vlaidation Messages
+    this.onValueChanged(); // (re) set form validation Messages
   }
   onValueChanged(data?: any) {
     if (!this.feedbackForm) {
@@ -81,14 +81,14 @@ export class ContactComponent implements OnInit {
     const form = this.feedbackForm;
     for (const field in this.formErrors) {
       if (this.formErrors.hasOwnProperty(field)) {
-        //clear previous error messages
+        // clear previous error messages
         this.formErrors[field] = '';
         const control = form.get(field);
         if (control && control.dirty && !control.valid) {
           const messages = this.validationMessages[field];
-          for(const key in control.errors){
-            if(control.errors.hasOwnProperty(key)){
-              this.formErrors[field]+= messages[key] + '  ';
+          for (const key in control.errors) {
+            if (control.errors.hasOwnProperty(key)) {
+              this.formErrors[field] += messages[key] + '  ';
             }
           }
         }
@@ -106,7 +106,7 @@ export class ContactComponent implements OnInit {
       contacttype: 'None',
       message: '',
     });
-    this.feedbackFormDirective.reserForm();
+    this.feedbackFormDirective.resetForm();
   }
   ngOnInit(): void {}
 }
