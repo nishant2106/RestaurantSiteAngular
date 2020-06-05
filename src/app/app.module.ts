@@ -41,6 +41,7 @@ import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { from } from 'rxjs';
+import { HighlightDirective } from './directives/highlight.directive';
 
 
 // import { AppRoutingModule } from './app-routing/app-routing.module';
@@ -56,6 +57,7 @@ import { from } from 'rxjs';
     HomeComponent,
     ContactComponent,
     LoginComponent,
+    HighlightDirective,
   ],
   imports: [
     BrowserModule,
