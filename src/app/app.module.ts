@@ -24,6 +24,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import 'hammerjs';
+import { baseURL } from './shared/baseurl';
+
 import { MenuComponent } from './menu/menu.component';
 import { DishdetailComponent } from './dishdetail/dishdetail.component';
 import { HeaderComponent } from './header/header.component';
@@ -36,9 +38,11 @@ import { DishService } from './services/dish.service';
 import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
 import { LoginComponent } from './login/login.component';
+import { HttpClientModule } from '@angular/common/http';
 import { from } from 'rxjs';
 
-//import { AppRoutingModule } from './app-routing/app-routing.module';
+
+// import { AppRoutingModule } from './app-routing/app-routing.module';
 
 @NgModule({
   declarations: [
@@ -72,9 +76,11 @@ import { from } from 'rxjs';
     MatSlideToggleModule,
     MatSelectModule,
     MatProgressSpinnerModule,
-    MatSliderModule
+    MatSliderModule,
+    HttpClientModule
   ],
-  providers: [DishService, PromotionService, LeaderService],
+  providers: [DishService, PromotionService, LeaderService, {provide: 'baseURL', useValue: baseURL}
+],
   entryComponents: [ LoginComponent],
   bootstrap: [AppComponent],
 })
