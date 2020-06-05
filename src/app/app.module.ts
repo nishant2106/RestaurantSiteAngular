@@ -37,6 +37,7 @@ import { ContactComponent } from './contact/contact.component';
 import { DishService } from './services/dish.service';
 import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
+import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
 import { LoginComponent } from './login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { from } from 'rxjs';
@@ -79,7 +80,7 @@ import { from } from 'rxjs';
     MatSliderModule,
     HttpClientModule
   ],
-  providers: [DishService, PromotionService, LeaderService, {provide: 'baseURL', useValue: baseURL}
+  providers: [DishService, PromotionService, LeaderService, ProcessHTTPMsgService, {provide: 'baseURL', useValue: baseURL}
 ],
   entryComponents: [ LoginComponent],
   bootstrap: [AppComponent],
