@@ -15,7 +15,7 @@ import { FeedbackService } from '../services/feedback.service';
   animations: [flyInOut(), expand()],
 })
 export class ContactComponent implements OnInit {
-  feedbackFormGroup: FormGroup;
+  feedbackForm: FormGroup;
   feedback: Feedback;
   contactType = ContactType;
   formErrors = {
@@ -23,31 +23,27 @@ export class ContactComponent implements OnInit {
     lastname: '',
     telnum: '',
     email: '',
-    message: '',
   };
 
-  validationMessages: {
+  validationMessages = {
     firstname: {
-      required: 'First Name is required.';
-      minLength: 'First Name must be at least 2 characters long.';
-      maxLength: 'FirstName cannot be more than 25 characters long.';
-    };
+      required: 'First Name is required.',
+      minlength: 'First Name must be at least 2 characters long.',
+      maxlength: 'FirstName cannot be more than 25 characters long.',
+    },
     lastname: {
-      required: 'Last Name is required.';
-      minLength: 'Last Name must be at least 2 characters long.';
-      maxLength: 'Last Name cannot be more than 25 characters long.';
-    };
+      required: 'Last Name is required.',
+      minlength: 'Last Name must be at least 2 characters long.',
+      maxlength: 'Last Name cannot be more than 25 characters long.',
+    },
     telnum: {
-      required: 'Tel. number is required.';
-      pattern: 'Tel. number must contain only numbers.';
-    };
+      required: 'Tel. number is required.',
+      pattern: 'Tel. number must contain only numbers.',
+    },
     email: {
-      required: 'Email is required.';
-      email: 'Email not in valid format.';
-    };
-    message: {
-      required: 'Message field is required.';
-    };
+      required: 'Email is required.',
+      email: 'Email not in valid format.',
+    },
   };
 
   submition: Feedback;
@@ -59,13 +55,13 @@ export class ContactComponent implements OnInit {
     private formbuilder: FormBuilder,
     private feedbackService: FeedbackService
   ) {
-    this.creatForm();
+    this.createForm();
   }
 
   ngOnInit() {}
 
-  creatForm() {
-    this.feedbackFormGroup = this.formbuilder.group({
+  createForm() {
+    this.feedbackForm = this.formbuilder.group({
       firstname: [
         '',
         [
@@ -88,14 +84,14 @@ export class ContactComponent implements OnInit {
       contacttype: 'None',
       message: ['', Validators.required],
     });
-    this.feedbackFormGroup.valueChanges.subscribe((data) =>
+    this.feedbackForm.valueChanges.subscribe((data) =>
       this.onValueChanged(data)
     );
     this.onValueChanged();
   }
 
   onSubmit() {
-    this.feedback = this.feedbackFormGroup.value;
+    this.feedback = this.feedbackForm.value;
     this.feedbackService.postFeedback(this.feedback).subscribe((feed) =>
       this.feedbackService.getfeedback(feed.id).subscribe((sub) => {
         this.loading = false;
@@ -104,7 +100,7 @@ export class ContactComponent implements OnInit {
       })
     );
     this.loading = true;
-    this.feedbackFormGroup.reset({
+    this.feedbackForm.reset({
       firstname: '',
       lastname: '',
       telnum: '',
@@ -117,19 +113,20 @@ export class ContactComponent implements OnInit {
   }
 
   onValueChanged(data?: any) {
-    if (!this.feedbackFormGroup) {
+    if (!this.feedbackForm) {
       return;
     }
-    const form = this.feedbackFormGroup;
+    const form = this.feedbackForm;
     for (const field in this.formErrors) {
       if (this.formErrors.hasOwnProperty(field)) {
+        // clear previous error messages
         this.formErrors[field] = '';
         const control = form.get(field);
         if (control && control.dirty && !control.valid) {
           const messages = this.validationMessages[field];
           for (const key in control.errors) {
             if (control.errors.hasOwnProperty(key)) {
-              this.formErrors[field] += messages[key] + ' ';
+              this.formErrors[field] += messages[key] + '  ';
             }
           }
         }
