@@ -8,20 +8,17 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Comment } from '../shared/comment';
 import { visibility, flyInOut, expand } from '../animations/app.animation';
 
-
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
   styleUrls: ['./dishdetail.component.scss'],
+  // tslint:disable-next-line: no-host-metadata-property
   host: {
-    '[@flyInOut]':'true',
-    'style': 'display:block;'
+    // tslint:disable-next-line: whitespace
+    '[@flyInOut]': 'true',
+    style: 'display:block;',
   },
-  animations: [
-    visibility(),
-    flyInOut(),
-    expand()
-  ]
+  animations: [visibility(), flyInOut(), expand()],
 })
 export class DishdetailComponent implements OnInit {
   dish: Dish;
@@ -32,7 +29,7 @@ export class DishdetailComponent implements OnInit {
   commentForm: FormGroup;
   comment: Comment;
   dishcopy: Dish;
-  visibility= 'shown';
+  visibility = 'shown';
 
   @ViewChild('ffrom') commentFormDirective;
 
@@ -122,7 +119,7 @@ export class DishdetailComponent implements OnInit {
           this.setPrevNext(dish.id);
           this.visibility = 'shown';
         },
-        (errmess) => (this.errMess = <any>errmess)
+        (errmess) => (this.errMess = errmess as any)
       );
   }
   setPrevNext(dishId: string) {
@@ -146,7 +143,7 @@ export class DishdetailComponent implements OnInit {
       (errmess) => {
         this.dish = null;
         this.dishcopy = null;
-        this.errMess = <any>errmess;
+        this.errMess = errmess as any;
       }
     );
     this.commentForm.reset({

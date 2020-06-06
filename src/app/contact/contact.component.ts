@@ -1,60 +1,71 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
-import { flyInOut } from '../animations/app.animation';
+import { flyInOut, expand } from '../animations/app.animation';
+import { FeedbackService } from '../services/feedback.service';
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.scss'],
   host: {
-    '[@flyInOut]':'true',
-    'style': 'display:block;'
+    '[@flyInOut]': 'true',
+    style: 'display: block',
   },
-  animations: [
-    flyInOut()
-  ]
-
+  animations: [flyInOut(), expand()],
 })
 export class ContactComponent implements OnInit {
-  feedbackForm: FormGroup;
+  feedbackFormGroup: FormGroup;
   feedback: Feedback;
   contactType = ContactType;
-  @ViewChild('fform') feedbackFormDirective;
-
   formErrors = {
     firstname: '',
     lastname: '',
     telnum: '',
     email: '',
+    message: '',
   };
 
-  validationMessages = {
+  validationMessages: {
     firstname: {
-      required: 'First Name is required.',
-      minlength: 'First Name must be at least 2 characters long.',
-      maxlength: 'FirstName cannot be more than 25 characters long.',
-    },
+      required: 'First Name is required.';
+      minLength: 'First Name must be at least 2 characters long.';
+      maxLength: 'FirstName cannot be more than 25 characters long.';
+    };
     lastname: {
-      required: 'Last Name is required.',
-      minlength: 'Last Name must be at least 2 characters long.',
-      maxlength: 'Last Name cannot be more than 25 characters long.',
-    },
+      required: 'Last Name is required.';
+      minLength: 'Last Name must be at least 2 characters long.';
+      maxLength: 'Last Name cannot be more than 25 characters long.';
+    };
     telnum: {
-      required: 'Tel. number is required.',
-      pattern: 'Tel. number must contain only numbers.',
-    },
+      required: 'Tel. number is required.';
+      pattern: 'Tel. number must contain only numbers.';
+    };
     email: {
-      required: 'Email is required.',
-      email: 'Email not in valid format.',
-    },
+      required: 'Email is required.';
+      email: 'Email not in valid format.';
+    };
+    message: {
+      required: 'Message field is required.';
+    };
   };
 
-  constructor(private fb: FormBuilder) {
-    this.createForm();
+  submition: Feedback;
+  submitionId: string;
+  loading = false;
+
+  @ViewChild('fform') feedbackFormDirective;
+  constructor(
+    private formbuilder: FormBuilder,
+    private feedbackService: FeedbackService
+  ) {
+    this.creatForm();
   }
-  createForm() {
-    this.feedbackForm = this.fb.group({
+
+  ngOnInit() {}
+
+  creatForm() {
+    this.feedbackFormGroup = this.formbuilder.group({
       firstname: [
         '',
         [
@@ -77,39 +88,26 @@ export class ContactComponent implements OnInit {
       contacttype: 'None',
       message: ['', Validators.required],
     });
-    this.feedbackForm.valueChanges.subscribe((data) =>
+    this.feedbackFormGroup.valueChanges.subscribe((data) =>
       this.onValueChanged(data)
     );
+    this.onValueChanged();
+  }
 
-    this.onValueChanged(); // (re) set form validation Messages
-  }
-  onValueChanged(data?: any) {
-    if (!this.feedbackForm) {
-      return;
-    }
-    const form = this.feedbackForm;
-    for (const field in this.formErrors) {
-      if (this.formErrors.hasOwnProperty(field)) {
-        // clear previous error messages
-        this.formErrors[field] = '';
-        const control = form.get(field);
-        if (control && control.dirty && !control.valid) {
-          const messages = this.validationMessages[field];
-          for (const key in control.errors) {
-            if (control.errors.hasOwnProperty(key)) {
-              this.formErrors[field] += messages[key] + '  ';
-            }
-          }
-        }
-      }
-    }
-  }
   onSubmit() {
-    this.feedback = this.feedbackForm.value;
-    this.feedbackForm.reset({
+    this.feedback = this.feedbackFormGroup.value;
+    this.feedbackService.postFeedback(this.feedback).subscribe((feed) =>
+      this.feedbackService.getfeedback(feed.id).subscribe((sub) => {
+        this.loading = false;
+        this.submition = sub;
+        setTimeout(() => (this.submition = null), 5000);
+      })
+    );
+    this.loading = true;
+    this.feedbackFormGroup.reset({
       firstname: '',
       lastname: '',
-      telnum: 0,
+      telnum: '',
       email: '',
       agree: false,
       contacttype: 'None',
@@ -117,5 +115,25 @@ export class ContactComponent implements OnInit {
     });
     this.feedbackFormDirective.resetForm();
   }
-  ngOnInit(): void {}
+
+  onValueChanged(data?: any) {
+    if (!this.feedbackFormGroup) {
+      return;
+    }
+    const form = this.feedbackFormGroup;
+    for (const field in this.formErrors) {
+      if (this.formErrors.hasOwnProperty(field)) {
+        this.formErrors[field] = '';
+        const control = form.get(field);
+        if (control && control.dirty && !control.valid) {
+          const messages = this.validationMessages[field];
+          for (const key in control.errors) {
+            if (control.errors.hasOwnProperty(key)) {
+              this.formErrors[field] += messages[key] + ' ';
+            }
+          }
+        }
+      }
+    }
+  }
 }

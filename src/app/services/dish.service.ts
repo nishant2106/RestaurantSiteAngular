@@ -14,26 +14,26 @@ import { ProcessHTTPMsgService } from './process-httpmsg.service';
 export class DishService {
   constructor(
     private http: HttpClient,
-    private ProcessHTTPMsgService: ProcessHTTPMsgService
+    private ProcessHTTPMsgServices: ProcessHTTPMsgService
   ) {}
 
   getDishes(): Observable<Dish[]> {
     return this.http
       .get<Dish[]>(baseURL + 'dishes')
-      .pipe(catchError(this.ProcessHTTPMsgService.handleError));
+      .pipe(catchError(this.ProcessHTTPMsgServices.handleError));
   }
 
   getDish(id: number): Observable<Dish> {
     return this.http
       .get<Dish>(baseURL + 'dishes/' + id)
-      .pipe(catchError(this.ProcessHTTPMsgService.handleError));
+      .pipe(catchError(this.ProcessHTTPMsgServices.handleError));
   }
 
   getFeaturedDish(): Observable<Dish> {
     return this.http
       .get<Dish[]>(baseURL + 'dishes?featured=true')
       .pipe(map((dishes) => dishes[0]))
-      .pipe(catchError(this.ProcessHTTPMsgService.handleError));
+      .pipe(catchError(this.ProcessHTTPMsgServices.handleError));
   }
 
   getDishIds(): Observable<number[] | any> {
@@ -50,6 +50,6 @@ export class DishService {
     };
     return this.http
       .put<Dish>(baseURL + 'dishes/' + dish.id, dish, httpOptions)
-      .pipe(catchError(this.ProcessHTTPMsgService.handleError));
+      .pipe(catchError(this.ProcessHTTPMsgServices.handleError));
   }
 }

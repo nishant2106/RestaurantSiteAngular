@@ -58,7 +58,11 @@
     <h2>Corporate Leadership</h2>
     <mat-list>
         <mat-list-item *ngFor="let leader of leaders" [@expand]>
-            <img matListAvatar src={{leader.image}} alt={{leader.name}}>
+            <img matListAvatar src="{{baseURL+leader.image}}" alt={{leader.name}}>
+            <div fxFlex *ngIf="leaderErrMess">
+              <h2>Error</h2>
+              <h4>{{leaderErrMess}}</h4>
+            </div>
             <h3 matLine>{{leader.name}}</h3>
             <p matLine>
                 <span>{{leader.designation}}</span>
