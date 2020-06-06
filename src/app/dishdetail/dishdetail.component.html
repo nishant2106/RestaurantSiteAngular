@@ -1,5 +1,5 @@
 <div fxFlex [hidden]="!dish">
-<div class="container" fxLayout="column" fxLayout="column" fxLayout.xs="row" 
+<div class="container"  fxLayout="row" fxLayout.xs="row" 
     fxLayoutGap="10px" fxLayoutGap.xs="0" *ngIf="dish" >
 
     <!-- <div fxFlex="100">
@@ -8,7 +8,7 @@
             <hr>
         </div>
     </div> -->
-    <div fxFlex="100" class="form-width" [@visibility]="visibility">
+    <div fxFlex="100" class="half-width" [@visibility]="visibility">
     <mat-card>
         <mat-card-header>
             <mat-card-title>
@@ -35,7 +35,7 @@
     </mat-card>
     </div>
 
-<div  fxFlex="100" *ngIf="dish" class="form-width" [@visibility]="visibility">
+<div  fxFlex="40" *ngIf="dish" fxLayout="column" [@visibility]="visibility" [@expand]>
 
         <mat-list>
             <h2>Comments</h2>
@@ -56,10 +56,9 @@
 
             </mat-list-item>
         </mat-list>
-</div>
-<div fxFlex="100" *ngIf="dish" class="form-width">
 
-        <form novalidate [formGroup]="commentForm" #fform="ngForm" (ngSubmit)="onSubmit()">
+
+        <form novalidate [formGroup]="commentForm" #fform="ngForm" (ngSubmit)="onSubmit()" [@expand]>
             <p>
                 <mat-form-field class="full-width">
                     <input matInput formControlName="author" placeholder="Name" type="text" required>
